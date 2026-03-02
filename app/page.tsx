@@ -1,26 +1,83 @@
+"use client";
+
+import { useState } from "react";
 import ContactForm from "@/components/ContactForm";
 
 export default function Home() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-200 font-sans selection:bg-blue-500 selection:text-white scroll-smooth">
+    <div className="min-h-screen bg-slate-950 text-slate-200 font-sans selection:bg-blue-500 selection:text-white scroll-smooth relative">
       
       {/* NAVEGACIÓN */}
       <nav className="fixed w-full bg-slate-950/80 backdrop-blur-md border-b border-slate-800 z-40">
         <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-          <div className="text-2xl font-black tracking-tighter text-white">
-            IZAK<span className="text-blue-500">SYSTEMS</span>
-          </div>
+          
+          {/* LOGO (Clicable para ir al inicio) */}
+          <a href="#" className="flex items-center gap-2 group">
+            {/* Logo Vectorial (Cubo Tecnológico) */}
+            <svg className="w-8 h-8 text-blue-500 group-hover:text-blue-400 transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+              <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+              <line x1="12" y1="22.08" x2="12" y2="12"></line>
+            </svg>
+            <div className="text-2xl font-black tracking-tighter text-white group-hover:opacity-80 transition-opacity">
+              IZAK<span className="text-blue-500">SYSTEMS</span>
+            </div>
+          </a>
+
+          {/* MENÚ ESCRITORIO (Oculto en móviles) */}
           <div className="hidden md:flex gap-8 text-sm font-medium">
             <a href="#servicios" className="hover:text-blue-400 transition-colors">Servicios</a>
             <a href="#nosotros" className="hover:text-blue-400 transition-colors">Nosotros</a>
             <a href="#contacto" className="hover:text-blue-400 transition-colors">Contacto</a>
           </div>
+
+          {/* BOTÓN MENÚ MÓVIL (Hamburguesa) */}
+          <button 
+            className="md:hidden text-slate-300 hover:text-white"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+          >
+            <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              {isMenuOpen ? (
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              ) : (
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              )}
+            </svg>
+          </button>
         </div>
+
+        {/* MENÚ DESPLEGABLE PARA CELULARES */}
+        {isMenuOpen && (
+          <div className="md:hidden bg-slate-900 border-b border-slate-800 shadow-2xl absolute w-full">
+            <div className="flex flex-col px-6 py-4 space-y-4 text-center font-medium">
+              <a href="#servicios" onClick={() => setIsMenuOpen(false)} className="text-slate-300 hover:text-blue-400 py-2 border-b border-slate-800/50">Servicios</a>
+              <a href="#nosotros" onClick={() => setIsMenuOpen(false)} className="text-slate-300 hover:text-blue-400 py-2 border-b border-slate-800/50">Nosotros</a>
+              <a href="#contacto" onClick={() => setIsMenuOpen(false)} className="text-slate-300 hover:text-blue-400 py-2">Contacto</a>
+            </div>
+          </div>
+        )}
       </nav>
 
-      {/* HERO SECTION */}
-      <main className="pt-40 pb-20 px-6 flex flex-col items-center justify-center text-center min-h-[90vh]">
-        <div className="max-w-4xl space-y-8 mt-12">
+      {/* HERO SECTION CON FONDO TECNOLÓGICO */}
+      <main className="relative pt-40 pb-20 px-6 flex flex-col items-center justify-center text-center min-h-[90vh] overflow-hidden">
+        
+        {/* NUEVO FONDO DE IMAGEN */}
+        <div className="absolute inset-0 w-full h-full">
+          <img 
+            src="/fondo-tech.jpg"
+            alt="Fondo de red tecnológica" 
+            className="w-full h-full object-cover opacity-60" 
+          />
+          {/* Capa oscura para mejorar la lectura del texto */}
+          <div className="absolute inset-0 bg-slate-950/70"></div>
+        </div>
+        
+        <div className="max-w-4xl space-y-8 mt-12 relative z-10">
+          <div className="inline-block border border-blue-500/30 bg-blue-500/10 text-blue-400 px-4 py-1.5 rounded-full text-sm font-semibold tracking-wide mb-4 shadow-[0_0_15px_rgba(37,99,235,0.2)]">
+            Soluciones IT Profesionales
+          </div>
           <h1 className="text-5xl sm:text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300 tracking-tight leading-tight">
             Tecnología que Impulsa tu Negocio
           </h1>
@@ -33,7 +90,7 @@ export default function Home() {
             <a href="#contacto" className="bg-blue-600 hover:bg-blue-500 text-white px-8 py-4 rounded-full font-bold transition-all shadow-[0_0_20px_rgba(37,99,235,0.3)] hover:shadow-[0_0_30px_rgba(37,99,235,0.5)]">
               Cotizar Proyecto
             </a>
-            <a href="#servicios" className="bg-transparent hover:bg-slate-800 text-white px-8 py-4 rounded-full font-bold border border-slate-600 transition-all">
+            <a href="#servicios" className="bg-slate-900 hover:bg-slate-800 text-white px-8 py-4 rounded-full font-bold border border-slate-700 hover:border-slate-500 transition-all">
               Ver Servicios
             </a>
           </div>
@@ -41,15 +98,15 @@ export default function Home() {
       </main>
 
       {/* SECCIÓN DE SERVICIOS */}
-      <section id="servicios" className="py-24 bg-slate-900 px-6 border-t border-slate-800">
-        <div className="max-w-7xl mx-auto">
+      <section id="servicios" className="py-24 bg-slate-900 px-6 border-t border-slate-800 relative">
+        <div className="max-w-7xl mx-auto relative z-10">
           <div className="text-center mb-16">
             <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">Nuestras Soluciones</h2>
             <p className="text-slate-400 max-w-2xl mx-auto">Cubrimos todo el espectro tecnológico para que tú te enfoques en hacer crecer tu negocio.</p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
-            <div className="bg-slate-950 p-8 rounded-2xl border border-slate-800 hover:border-blue-500/50 transition-colors group">
+            <div className="bg-slate-950 p-8 rounded-2xl border border-slate-800 hover:border-blue-500/50 transition-colors group shadow-lg">
               <div className="text-4xl mb-4 group-hover:scale-110 transition-transform">💻</div>
               <h3 className="text-xl font-bold text-white mb-3">Desarrollo de Software</h3>
               <p className="text-slate-400 text-sm leading-relaxed">
@@ -57,7 +114,7 @@ export default function Home() {
               </p>
             </div>
 
-            <div className="bg-slate-950 p-8 rounded-2xl border border-slate-800 hover:border-blue-500/50 transition-colors group">
+            <div className="bg-slate-950 p-8 rounded-2xl border border-slate-800 hover:border-blue-500/50 transition-colors group shadow-lg">
               <div className="text-4xl mb-4 group-hover:scale-110 transition-transform">⚙️</div>
               <h3 className="text-xl font-bold text-white mb-3">Armado y Mantenimiento</h3>
               <p className="text-slate-400 text-sm leading-relaxed">
@@ -65,8 +122,7 @@ export default function Home() {
               </p>
             </div>
 
-            {/* SERVICIO 3 ACTUALIZADO (Ajustado a la realidad) */}
-            <div className="bg-slate-950 p-8 rounded-2xl border border-slate-800 hover:border-blue-500/50 transition-colors group">
+            <div className="bg-slate-950 p-8 rounded-2xl border border-slate-800 hover:border-blue-500/50 transition-colors group shadow-lg">
               <div className="text-4xl mb-4 group-hover:scale-110 transition-transform">🛠️</div>
               <h3 className="text-xl font-bold text-white mb-3">Soporte Técnico Especializado</h3>
               <p className="text-slate-400 text-sm leading-relaxed">
@@ -88,15 +144,19 @@ export default function Home() {
             <p className="text-slate-400 leading-relaxed mb-8">
               Con sede en Guadalajara, nuestra ventaja radica en la ejecución técnica impecable. Si tu operación requiere hardware especializado, armamos la Workstation exacta. Si los ERPs comerciales no encajan con tus procesos o resultan demasiado complejos, nosotros diseñamos y codificamos tu propio sistema de gestión desde cero.
             </p>
-            
-            {/* BULLETS ACTUALIZADOS */}
             <ul className="space-y-3 text-slate-300 font-medium">
-              <li className="flex items-center gap-3">✓ <span className="text-sm">Desarrollo de Software Custom (ERPs, Scripts, Web)</span></li>
-              <li className="flex items-center gap-3">✓ <span className="text-sm">Armado de Workstations y PCs de Alto Rendimiento</span></li>
-              <li className="flex items-center gap-3">✓ <span className="text-sm">Soporte Técnico y Mantenimiento de Equipos</span></li>
+              <li className="flex items-center gap-3">
+                <span className="text-blue-500">✓</span> <span className="text-sm">Desarrollo de Software Custom (ERPs, Scripts, Web)</span>
+              </li>
+              <li className="flex items-center gap-3">
+                <span className="text-blue-500">✓</span> <span className="text-sm">Armado de Workstations y PCs de Alto Rendimiento</span>
+              </li>
+              <li className="flex items-center gap-3">
+                <span className="text-blue-500">✓</span> <span className="text-sm">Soporte Técnico y Mantenimiento de Equipos</span>
+              </li>
             </ul>
           </div>
-          <div className="bg-slate-900 rounded-3xl p-8 border border-slate-800 relative overflow-hidden">
+          <div className="bg-slate-900 rounded-3xl p-8 border border-slate-800 relative overflow-hidden shadow-2xl">
              <div className="absolute top-0 right-0 w-64 h-64 bg-blue-600/10 rounded-full blur-3xl -mr-20 -mt-20"></div>
              <div className="relative z-10">
                 <div className="text-5xl font-black text-transparent bg-clip-text bg-gradient-to-br from-white to-slate-500 mb-2">100%</div>
@@ -113,7 +173,7 @@ export default function Home() {
 
       {/* SECCIÓN CONTACTO */}
       <section id="contacto" className="py-24 bg-slate-900 px-6 border-t border-slate-800">
-        <div className="max-w-3xl mx-auto text-center">
+        <div className="max-w-3xl mx-auto text-center relative z-10">
           <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">¿Listo para optimizar tu TI?</h2>
           <p className="text-slate-400 mb-10">Déjanos un mensaje o abre el chat en la esquina inferior derecha para una atención inmediata.</p>
           
@@ -121,46 +181,44 @@ export default function Home() {
         </div>
       </section>
 
-      {/* FOOTER MULTICOLUMNA (ACTUALIZADO CON CONTACTO) */}
+      {/* FOOTER */}
       <footer className="bg-slate-950 py-16 px-6 border-t border-slate-800">
         <div className="max-w-7xl mx-auto grid md:grid-cols-3 gap-12 items-start">
-          
-          {/* Columna 1: Marca */}
           <div>
-            <div className="text-2xl font-black tracking-tighter text-white mb-4">
-              IZAK<span className="text-blue-500">SYSTEMS</span>
+            <div className="flex items-center gap-2 mb-4">
+              <svg className="w-6 h-6 text-blue-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                <line x1="12" y1="22.08" x2="12" y2="12"></line>
+              </svg>
+              <div className="text-xl font-black tracking-tighter text-white">
+                IZAK<span className="text-blue-500">SYSTEMS</span>
+              </div>
             </div>
             <p className="text-slate-500 text-sm leading-relaxed">
               Soluciones integrales de TI, operando con excelencia y honestidad desde Guadalajara, Jalisco.
             </p>
           </div>
-
-          {/* Columna 2: Contacto Directo */}
           <div>
             <h4 className="text-white font-bold mb-6">Contacto Directo</h4>
             <div className="space-y-3 text-sm">
               <p className="text-slate-400 flex items-center gap-3">
                 <span className="text-xl">📱</span> 
-                {/* Cambia estos números por los tuyos */}
-                <a href="https://wa.me/523348808769" target="_blank" rel="noreferrer" className="hover:text-blue-400 transition-colors">
-                  +52 33 48808769
+                <a href="https://wa.me/523300000000" target="_blank" rel="noreferrer" className="hover:text-blue-400 transition-colors">
+                  +52 33 0000 0000
                 </a>
               </p>
               <p className="text-slate-400 flex items-center gap-3">
                 <span className="text-xl">✉️</span> 
-                {/* Cambia este correo por el tuyo */}
                 <a href="mailto:contacto.izaksystems@gmail.com" className="hover:text-blue-400 transition-colors">
                   contacto.izaksystems@gmail.com
                 </a>
               </p>
             </div>
           </div>
-
-          {/* Columna 3: Redes Sociales */}
           <div className="md:text-right">
             <h4 className="text-white font-bold mb-6">Conecta con nosotros</h4>
             <div className="flex gap-4 md:justify-end">
-              {/* Estos son botones provisionales listos para tus links */}
               <a href="#" className="w-10 h-10 rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center hover:bg-blue-600 hover:border-blue-500 transition-all text-slate-400 hover:text-white">
                 <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fillRule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clipRule="evenodd" /></svg>
               </a>
@@ -170,8 +228,6 @@ export default function Home() {
             </div>
           </div>
         </div>
-
-        {/* Derechos de Autor */}
         <div className="max-w-7xl mx-auto mt-12 pt-8 border-t border-slate-800/50 text-center text-slate-600 text-xs">
           © {new Date().getFullYear()} Izak Systems. Todos los derechos reservados.
         </div>

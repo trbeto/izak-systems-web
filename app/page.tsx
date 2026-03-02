@@ -66,12 +66,12 @@ export default function Home() {
         {/* NUEVO FONDO DE IMAGEN */}
         <div className="absolute inset-0 w-full h-full">
           <img 
-            src="/fondo-tech.jpg"
+            src="/fondo-tech.png"
             alt="Fondo de red tecnológica" 
             className="w-full h-full object-cover opacity-60" 
           />
           {/* Capa oscura para mejorar la lectura del texto */}
-          <div className="absolute inset-0 bg-slate-950/70"></div>
+          <div className="absolute inset-0 bg-slate-950/75"></div>
         </div>
         
         <div className="max-w-4xl space-y-8 mt-12 relative z-10">

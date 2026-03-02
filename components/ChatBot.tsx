@@ -156,7 +156,7 @@ export default function ChatBot() {
                 }}
                 disabled={isLoading}
                 rows={2}
-                placeholder={isLoading ? "Escribiendo..." : "Mensaje... (Shift + Enter para salto)"}
+                placeholder={isLoading ? "Escribiendo..." : "Mensaje... "}
                 className="flex-grow bg-slate-800 border border-slate-700 text-white px-3 py-2 rounded-lg focus:outline-none focus:border-blue-500 disabled:opacity-50 resize-none"
               />
               <button

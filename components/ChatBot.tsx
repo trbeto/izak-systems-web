@@ -27,14 +27,11 @@ export default function ChatBot() {
     setMessages(historial);
 
     // --- EL DETECTIVE DE LEADS ---
-    // Busca correos electrónicos o números de 8 a 12 dígitos en el mensaje
     const contieneContacto = /([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9_-]+)|(\d{8,12})/gi.test(mensajeUsuario);
 
     if (contieneContacto) {
-      // Formateamos el chat para que lo puedas leer fácil en tu correo
       const chatCompleto = historial.map(m => `${m.role === 'user' ? '👤 Cliente' : '🤖 Bot'}: ${m.content}`).join('\n\n');
       
-      // Enviamos el correo silenciosamente reutilizando tu API
       fetch('/api/contacto', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -54,6 +51,12 @@ export default function ChatBot() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ messages: historial }),
       });
+
+      // --- EL DETECTOR DE ERRORES DE VERCEL ---
+      if (!response.ok) {
+        throw new Error(`Error ${response.status}: Vercel no pudo conectar con OpenAI.`);
+      }
+      // ----------------------------------------
 
       if (!response.body) throw new Error("Sin respuesta del servidor");
 
@@ -91,9 +94,10 @@ export default function ChatBot() {
           }
         }
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
-      setMessages((prev) => [...prev, { role: 'assistant', content: '❌ Error de conexión con la IA.' }]);
+      // Ahora si hay error, lo va a imprimir en la pantalla para que lo podamos ver
+      setMessages((prev) => [...prev, { role: 'assistant', content: `❌ Error de conexión: ${error.message}` }]);
     } finally {
       setIsLoading(false);
     }
@@ -141,12 +145,10 @@ export default function ChatBot() {
 
           <form onSubmit={enviarMensaje} className="p-3 border-t border-slate-700 bg-slate-900 rounded-b-2xl">
             <div className="flex gap-2 items-end">
-              {/* CAMBIO CLAVE: Textarea para permitir saltos de línea */}
               <textarea
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={(e) => {
-                  // Si presiona Enter SIN la tecla Shift, envía el mensaje
                   if (e.key === 'Enter' && !e.shiftKey) {
                     e.preventDefault();
                     enviarMensaje();

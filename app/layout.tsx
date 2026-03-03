@@ -6,6 +6,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ChatBot from "@/components/ChatBot";
 import { Toaster } from "react-hot-toast";
+import { GoogleAnalytics } from "@next/third-parties/google"; // 🔥 El componente oficial de Google
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -17,10 +18,26 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-// ¡Tu marca real en la pestaña del navegador para el SEO!
+// 🔥 ESTO ES EL SEO TÉCNICO Y OPENGRAPH PARA REDES SOCIALES
 export const metadata: Metadata = {
-  title: "Izak Systems | Soluciones TI",
-  description: "Soluciones integrales de TI, Desarrollo de Software y Workstations en Guadalajara.",
+  title: "Izak Systems | Soluciones TI en Guadalajara",
+  description: "Desarrollo de software a la medida (PHP/React/Bases de Datos), armado de Workstations y soporte corporativo de infraestructura.",
+  openGraph: {
+    title: "Izak Systems | Tecnología que Impulsa tu Negocio",
+    description: "No vendemos cajas, resolvemos cuellos de botella operativos. Conoce nuestras soluciones IT corporativas.",
+    url: "https://izak-systems-web.vercel.app/", // ⚠️ Recuerda cambiar esto por tu dominio real de Vercel
+    siteName: "Izak Systems",
+    images: [
+      {
+        url: "/fondo-tech.png", // Usaremos tu fondo como miniatura de WhatsApp por ahora
+        width: 1200,
+        height: 630,
+        alt: "Izak Systems Portada",
+      },
+    ],
+    locale: "es_MX",
+    type: "website",
+  },
 };
 
 export default function RootLayout({
@@ -33,37 +50,27 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen bg-slate-950 text-slate-200 selection:bg-blue-500 selection:text-white scroll-smooth`}
       >
-        {/* 1. EL MENÚ HASTA ARRIBA */}
         <Navbar />
         
-        {/* 2. EL CONTENIDO EN MEDIO (Le ponemos pt-20 para que el menú fijo no lo tape) */}
         <div className="pt-20">
           {children}
         </div>
 
-        {/* 3. EL FOOTER HASTA ABAJO */}
         <Footer />
-
-        {/* 🔥 Configuramos las notificaciones elegantes en modo oscuro */}
+        
         <Toaster 
           position="bottom-center"
           toastOptions={{
-            style: {
-              background: '#0f172a', // slate-900
-              color: '#f8fafc', // text-slate-50
-              border: '1px solid #1e293b', // border-slate-800
-            },
-            success: {
-              iconTheme: {
-                primary: '#3b82f6', // blue-500
-                secondary: '#ffffff',
-              },
-            },
+            style: { background: '#0f172a', color: '#f8fafc', border: '1px solid #1e293b' },
+            success: { iconTheme: { primary: '#3b82f6', secondary: '#ffffff' } },
           }}
         />
-        
-        {/* 4. EL BOT FLOTANDO */}
+
         <ChatBot />
+
+        {/* 🔥 EL ESPÍA DE GOOGLE ANALYTICS */}
+        {/* Cambia "G-XXXXXXXXXX" por el ID real que te dé Google Analytics */}
+        <GoogleAnalytics gaId="G-QWHS50WLM7" />
       </body>
     </html>
   );

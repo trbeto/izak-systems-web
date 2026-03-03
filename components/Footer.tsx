@@ -32,7 +32,7 @@ export default function Footer() {
                 <line x1="12" y1="18" x2="12.01" y2="18"></line>
               </svg>
               <a href="https://wa.me/523300000000" target="_blank" rel="noreferrer" className="hover:text-blue-400 transition-colors">
-                +52 33 0000 0000
+                +52 334880 8769
               </a>
             </p>
             <p className="text-slate-400 flex items-center gap-3">

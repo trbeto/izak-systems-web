@@ -2,8 +2,8 @@ import nodemailer from 'nodemailer';
 
 export async function POST(req: Request) {
   try {
-    // Recibimos los datos del formulario
-    const { nombre, empresa, email, mensaje } = await req.json();
+    // Recibimos los datos del formulario (¡Ahora con el teléfono incluido!)
+    const { nombre, empresa, email, telefono, mensaje } = await req.json();
 
     // Configuramos tu cuenta de correo
     const transporter = nodemailer.createTransport({
@@ -19,15 +19,15 @@ export async function POST(req: Request) {
       from: process.env.CORREO_IZAK,
       to: process.env.CORREO_IZAK, // Te lo envías a ti mismo como alerta
       subject: `🔥 Nuevo Lead Izak Systems: ${nombre} de ${empresa || 'Independiente'}`,
-      text: `
-        Tienes un nuevo prospecto desde la página web:
+      text: `Tienes un nuevo prospecto desde la página web:
         
-        Nombre: ${nombre}
-        Empresa: ${empresa || 'N/A'}
-        Email: ${email}
+Nombre: ${nombre}
+Empresa: ${empresa || 'No especificada'}
+Email: ${email}
+WhatsApp/Teléfono: ${telefono || 'No proporcionado'}
         
-        Mensaje:
-        ${mensaje}
+Mensaje:
+${mensaje}
       `,
     };
 

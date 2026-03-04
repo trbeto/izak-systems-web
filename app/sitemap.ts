@@ -1,15 +1,15 @@
 import { MetadataRoute } from 'next'
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  // ⚠️ Cambia esto por tu dominio real cuando lo tengas
-  const baseUrl = "https://izak-systems-web.vercel.app/"; 
+  // 🔥 Le quitamos la diagonal al final del enlace
+  const baseUrl = "https://izak-systems-web.vercel.app"; 
 
   return [
     {
-      url: `${baseUrl}/`,
+      url: `${baseUrl}`, // <-- También le quitamos la diagonal aquí para la de inicio
       lastModified: new Date(),
       changeFrequency: 'weekly',
-      priority: 1, // La página de inicio es la más importante (1.0)
+      priority: 1, 
     },
     {
       url: `${baseUrl}/servicios`,
@@ -27,7 +27,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       url: `${baseUrl}/contacto`,
       lastModified: new Date(),
       changeFrequency: 'yearly',
-      priority: 0.9, // Muy importante porque aquí entran los prospectos
+      priority: 0.9, 
     },
   ]
 }

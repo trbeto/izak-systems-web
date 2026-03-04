@@ -22,6 +22,12 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Izak Systems | Soluciones TI en Guadalajara",
   description: "Desarrollo de software a la medida (PHP/React/Bases de Datos), armado de Workstations y soporte corporativo de infraestructura.",
+
+  // 🔥 AQUÍ AGREGAMOS LA VERIFICACIÓN DE GOOGLE
+  verification: {
+    google: 'uDfoz8n84X8ynqrS8uIiEGQmfBs-0ozTk0Crh28qrig', 
+  },
+
   openGraph: {
     title: "Izak Systems | Tecnología que Impulsa tu Negocio",
     description: "No vendemos cajas, resolvemos cuellos de botella operativos. Conoce nuestras soluciones IT corporativas.",

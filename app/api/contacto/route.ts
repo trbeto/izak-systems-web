@@ -1,11 +1,36 @@
 import nodemailer from 'nodemailer';
+import { createClient } from '@supabase/supabase-js';
+
+// 🔥 Conectamos con tu nueva Base de Datos de Supabase
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
+const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || '';
+const supabase = createClient(supabaseUrl, supabaseKey);
 
 export async function POST(req: Request) {
   try {
-    // Recibimos los datos del formulario (¡Ahora con el teléfono incluido!)
+    // Recibimos los datos del formulario
     const { nombre, empresa, email, telefono, mensaje } = await req.json();
 
-    // Configuramos tu cuenta de correo
+    // 1️⃣ PRIMERA TAREA: Guardar el prospecto en la Base de Datos
+    const { error: dbError } = await supabase
+      .from('prospectos')
+      .insert([
+        { 
+          nombre: nombre, 
+          empresa: empresa || null, 
+          email: email, 
+          telefono: telefono || null, 
+          mensaje: mensaje 
+        }
+      ]);
+
+    if (dbError) {
+      // Si falla la base de datos, lo registramos en la consola, 
+      // pero dejamos que el código continúe para que al menos te llegue el correo.
+      console.error('Error al guardar en Supabase:', dbError);
+    }
+
+    // 2️⃣ SEGUNDA TAREA: Enviarte tu alerta por correo
     const transporter = nodemailer.createTransport({
       service: 'gmail', // Si usas Outlook u otro, esto cambia
       auth: {
@@ -31,12 +56,12 @@ ${mensaje}
       `,
     };
 
-    // Damos la orden de envío
+    // Damos la orden de envío del correo
     await transporter.sendMail(mailOptions);
 
     return new Response(JSON.stringify({ success: true }), { status: 200 });
   } catch (error) {
-    console.error('Error enviando correo:', error);
-    return new Response(JSON.stringify({ error: 'Fallo al enviar el mensaje' }), { status: 500 });
+    console.error('Error procesando contacto:', error);
+    return new Response(JSON.stringify({ error: 'Fallo al procesar el mensaje' }), { status: 500 });
   }
 }
